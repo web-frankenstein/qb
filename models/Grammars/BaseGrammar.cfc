@@ -184,7 +184,7 @@ component displayname="Grammar" accessors="true" {
                 hasRecursion = true;
             }
 
-            return wrapColumn(arguments.commonTable.name) & (len(columns) ? " " & columns : "") & " AS (" & sql & ")";
+            return wrapColumn(arguments.commonTable.name) & (len(columns) ? " " & columns : "") & " (" & sql & ")";
         });
 
         /*
@@ -793,7 +793,7 @@ component displayname="Grammar" accessors="true" {
         table = table.listToArray( "." ).map( function( tablePart, index ) {
             return wrapValue( index == 1 ? getTablePrefix() & tablePart : tablePart );
         } ).toList( "." );
-        return alias == "" ? table : table & " AS " & wrapValue( getTablePrefix() & alias );
+        return alias == "" ? table : table & wrapValue( getTablePrefix() & alias );
     }
 
     /**
