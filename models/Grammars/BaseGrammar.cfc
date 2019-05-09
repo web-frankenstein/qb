@@ -184,7 +184,7 @@ component displayname="Grammar" accessors="true" {
                 hasRecursion = true;
             }
 
-            return wrapColumn(arguments.commonTable.name) & (len(columns) ? " " & columns : "") & " (" & sql & ")";
+            return wrapColumn(arguments.commonTable.name) & (len(columns) ? " " & columns : "") & " AS (" & sql & ")";
         });
 
         /*
