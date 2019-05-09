@@ -590,7 +590,7 @@ component displayname="QueryBuilder" accessors="true" {
     */
     public QueryBuilder function leftJoinRaw(
         required string table,
-        string first,
+        required any first,
         string operator,
         string second,
         boolean where
@@ -616,7 +616,7 @@ component displayname="QueryBuilder" accessors="true" {
     */
     public QueryBuilder function rightJoinRaw(
         required string table,
-        string first,
+        required any first,
         string operator,
         string second,
         boolean where
@@ -641,7 +641,7 @@ component displayname="QueryBuilder" accessors="true" {
     */
     public QueryBuilder function crossJoinRaw(
         required string table,
-        any first,
+        required any first,
         string operator,
         any second
     ) {
