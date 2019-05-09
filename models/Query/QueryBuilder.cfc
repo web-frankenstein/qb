@@ -1138,6 +1138,22 @@ component displayname="QueryBuilder" accessors="true" {
         arguments.combinator = "or";
         return whereRaw( argumentCollection = arguments );
     }
+    
+    /**
+    * Adds a raw SQL statement to the WHERE clauses with an AND combinator.
+    *
+    * @sql The raw SQL to add to the query.
+    * @whereBindings Any bindings needed for the raw SQL. Default: [].
+    *
+    * @return qb.models.Query.QueryBuilder
+    */
+    public QueryBuilder function andWhereRaw(
+        required string sql,
+        array whereBindings = []
+    ) {
+        arguments.combinator = "and";
+        return whereRaw( argumentCollection = arguments );
+    }
 
     /**
     * Adds a WHERE clause to the query comparing two columns
