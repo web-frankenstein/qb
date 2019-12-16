@@ -1024,6 +1024,20 @@ component displayname="QueryBuilder" accessors="true" {
     ) {
         return whereIn( argumentCollection = arguments );
     }
+    
+    /**
+    * Adds a WHERE NOT IN clause to the query.
+    *
+    * @column The name of the column with which to constrain the query. A closure can be passed to begin a nested where statement.
+    * @values The values with which to constrain the column. An expression (`builder.raw()`) can be passed as any of the values as well.
+    *
+    * @return qb.models.Query.QueryBuilder
+    */
+    public QueryBuilder function andWhereNotIn( column, values ) {
+        arguments.combinator = "and";
+        arguments.negate = true;
+        return whereIn( argumentCollection = arguments );
+    }
 
     /**
     * Adds a WHERE IN clause to the query using a subselect.  To call this using the public api, pass a closure to `whereIn` as the second argument (`values`).
@@ -2708,29 +2722,23 @@ component displayname="QueryBuilder" accessors="true" {
     */
     public any function onMissingMethod( string missingMethodName, struct missingMethodArguments ) {
         if ( ! arrayIsEmpty( REMatchNoCase( "^where(.+)", missingMethodName ) ) ) {
-            var args = { "1" = mid( missingMethodName, 6, len( missingMethodName ) - 5 ) };
-            for ( var key in missingMethodArguments ) {
-                args[ key + 1 ] = missingMethodArguments[ key ];
-            }
-            return where( argumentCollection = args );
+            missingMethodArguments["operator"] = mid( missingMethodName, 6, len( missingMethodName ) - 5 );
+            
+            return where( argumentCollection = missingMethodArguments );
         }
 
         if ( ! arrayIsEmpty( REMatchNoCase( "^andWhere(.+)", missingMethodName ) ) ) {
-            var args = { "1" = mid( missingMethodName, 9, len( missingMethodName ) - 8 ) };
-            for ( var key in missingMethodArguments ) {
-                args[ key + 1 ] = missingMethodArguments[ key ];
-            }
-
-            return andWhere( argumentCollection = args );
+            var operator = mid( missingMethodName, 9, len( missingMethodName ) - 8 );
+            
+            missingMethodArguments["operator"] = mid( missingMethodName, 9, len( missingMethodName ) - 8 );
+            
+            return andWhere( argumentCollection = missingMethodArguments );
         }
 
         if ( ! arrayIsEmpty( REMatchNoCase( "^orWhere(.+)", missingMethodName ) ) ) {
-            var args = { "1" = mid( missingMethodName, 8, len( missingMethodName ) - 7 ) };
-            for ( var key in missingMethodArguments ) {
-                args[ key + 1 ] = missingMethodArguments[ key ];
-            }
+            missingMethodArguments["operator"] = mid( missingMethodName, 8, len( missingMethodName ) - 7 );
 
-            return orWhere( argumentCollection = args );
+            return orWhere( argumentCollection = missingMethodArguments );
         }
 
         throw( "Method does not exist [#missingMethodName#]" );
