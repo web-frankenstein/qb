@@ -42,7 +42,7 @@ component displayname="QueryUtils" {
             }, "CF_SQL_VARCHAR" );
         }
 
-        if ( isNumeric( value ) ) {
+        if ( checkIsActuallyNumeric( value ) ) {
             return "CF_SQL_NUMERIC";
         }
 
@@ -163,6 +163,20 @@ component displayname="QueryUtils" {
         }
 
         return initial;
+    }
+
+    private boolean function checkIsActuallyNumeric( required any value ) {
+        var arrDataTypes = ["CFDouble",
+                        "Integer",
+                        "Double",
+                        "Float",
+                        "Long",
+                        "Short"];
+
+        return listFindNoCase(
+            arrayToList(arrDataTypes),
+            value.getClass().getSimpleName()
+        );
     }
 
 }
